@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE suppressions PUBLIC
+  "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+  "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+ 
+<suppressions>
+    <!-- In this default suppressions file, there are no suppressions defined.
+         That this file exists is so that clients can use it to specify a baseline no-suppressions filter in a parent project
+         and then override that as necessary in the project modules. -->
+</suppressions>

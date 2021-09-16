@@ -1,0 +1,248 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+  "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+  "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+    <!-- Checkstyle doesn't understand java 9's module.java file: 
+         https://checkstyle.sourceforge.io/config_filefilters.html#BeforeExecutionExclusionFileFilter -->
+    <module name="BeforeExecutionExclusionFileFilter">
+        <property name="fileNamePattern" value="module\-info\.java$"/>
+    </module>
+    
+    <!--
+         Allows clients to define a suppression filter file for ignoring checkstyle rules, if desired. 
+         http://checkstyle.sourceforge.io/config_filters.html#SuppressionFilter
+         http://maven.apache.org/plugins/maven-checkstyle-plugin/checkstyle-mojo.html - shows why property name chosen to match maven plugin default
+     -->
+    <module name="SuppressionFilter">
+        <property name="file" value="${checkstyle.suppressions.file}" />
+    </module>
+
+    <!-- Filter out Checkstyle warnings that have been suppressed with the @SuppressWarnings annotation -->
+    <module name="SuppressWarningsFilter" />    
+    
+    <module name="TreeWalker">
+        <!-- Make the @SuppressWarnings annotations available to Checkstyle -->
+        <module name="SuppressWarningsHolder" />
+        
+        <!--
+             Indicate the number of consecutive capital letters allowed in targeted
+             identifiers (abbreviations in the classes, interfaces, variables and 
+             methods names, ... ).
+             https://checkstyle.sourceforge.io/config_naming.html#AbbreviationAsWordInName
+         -->
+        <module name="AbbreviationAsWordInName">
+            <property name="allowedAbbreviationLength" value="1"/>
+        </module>
+        
+        <!--
+             Checks that there are no import statements that use the *
+             notation.
+             http://checkstyle.sourceforge.io/config_imports.html#AvoidStarImport
+         -->
+        <module name="AvoidStarImport" />
+
+        <!--
+             Restrict the number of number of &&, ||, &, | and ^ in an
+             expression.
+             http://checkstyle.sourceforge.io/config_metrics.html#BooleanExpressionComplexity
+        -->
+        <module name="BooleanExpressionComplexity" />
+
+        <!--
+             Checks that classes that define a covariant equals() method also
+             override method equals(java.lang.Object).
+             http://checkstyle.sourceforge.io/config_coding.html#CovariantEquals
+        -->
+        <module name="CovariantEquals" />
+
+        <!--
+             Check that the default is after all the cases in a switch
+             statement.
+             http://checkstyle.sourceforge.io/config_coding.html#DefaultComesLast
+        -->
+        <module name="DefaultComesLast" />
+
+        <!--
+             Checks for empty blocks, catch blocks, and statements.
+             http://checkstyle.sourceforge.io/config_blocks.html#EmptyBlock
+        -->
+        <module name="EmptyBlock" />
+        <module name="EmptyCatchBlock" />
+        <module name="EmptyStatement" />
+
+        <!-- Checks that classes that override equals() also override hashCode() -->
+        <module name="EqualsHashCode" />
+
+        <!--
+             Makes sure that utility classes (classes that contain only
+             static methods or fields in their API) do not have a public
+             constructor.
+
+             http://checkstyle.sourceforge.io/config_design.html#HideUtilityClassConstructor
+        -->
+        <module name="HideUtilityClassConstructor" />
+
+        <!--
+             Disallow certain packages (usually mistaken imports)
+             http://checkstyle.sourceforge.io/config_imports.html#IllegalImport
+         -->
+        <module name="IllegalImport">
+            <property name="illegalPkgs"
+                      value="
+                             sun.*,
+                             edu.emory.mathcs.backport,
+                             com.amazon.coral.google.common,
+                             zaaa.com.google.common" />
+        </module>
+
+        <!--
+             Some classes should never be thrown.
+             We'll go with the defaults:
+             java.lang.Throwable, java.lang.Error,
+             java.lang.RuntimeException
+
+             http://checkstyle.sourceforge.io/config_coding.html#IllegalThrows
+        -->
+        <module name="IllegalThrows" />
+
+        <!--
+             An interface should describe a type. It is therefore inappropriate to
+             define an interface that does not contain any methods but
+             only constants.
+             http://checkstyle.sourceforge.io/config_design.html#InterfaceIsType
+        -->
+        <module name="InterfaceIsType"/>
+
+        <!--
+             Disallow empty Javadoc
+             https://i.amazon.com/issues/WEBSITECSTECH-1660
+             http://checkstyle.sourceforge.io/config_javadoc.html#JavadocStyle
+        -->
+        <module name="JavadocStyle">
+            <property name="scope" value="public"/>
+            <property name="checkFirstSentence" value="false"/>
+        </module>
+
+        <!--
+             Require comments on all public Interfaces and Classes
+             http://checkstyle.sourceforge.io/config_javadoc.html#JavadocType
+        -->
+        <module name="JavadocType">
+            <property name="scope" value="public"/>
+            <property name="allowMissingParamTags" value="true"/>
+            <property name="allowUnknownTags" value="true"/>
+        </module>
+
+        <!--
+             Checks that the order of modifiers conforms to the
+             suggestions in the Java Language specification.
+             http://checkstyle.sourceforge.io/config_modifier.html#ModifierOrder
+        -->
+        <module name="ModifierOrder" />
+
+        <!-- Checks for braces around code blocks.
+             http://checkstyle.sourceforge.io/config_blocks.html#NeedBraces
+             See http://checkstyle.sf.net/config_blocks.html
+             Require {} to be used on all if/else/for/while blocks
+        -->
+        <module name="NeedBraces" />
+        
+        <!-- 
+             Checks for allowable for, if, and try nesting.
+             https://checkstyle.sourceforge.io/config_coding.html#NestedForDepth
+        -->
+        <module name="NestedForDepth" />
+        <module name="NestedIfDepth" />
+        <module name="NestedTryDepth" />
+
+        <!--
+             Restricts nested for blocks to a depth of 3
+        -->
+        <module name="NestedForDepth">
+            <property name="max" value="3"/>
+        </module>
+
+        <!--
+             Restricts nested if blocks to a depth of 3
+             http://checkstyle.sourceforge.io/config_coding.html#NestedIfDepth
+        -->
+        <module name="NestedIfDepth">
+            <property name="max" value="3"/>
+        </module>
+
+        <!--
+             Restricts nested try blocks to a depth of 3
+             http://checkstyle.sourceforge.io/config_coding.html#NestedTryDepth
+        -->
+        <module name="NestedTryDepth" >
+            <property name="max" value="3"/>
+        </module>
+
+        <!--
+             Checks that the outer type name and the file name match.
+             http://checkstyle.sourceforge.io/config_misc.html#OuterTypeFilename
+        -->
+        <module name="OuterTypeFilename" />
+
+        <!-- Package names should start with a lowercase letter -->
+        <module name="PackageName"/>
+
+        <!--
+             Disallow assignments to parameters
+             http://checkstyle.sourceforge.io/config_coding.html#ParameterAssignment
+        -->
+        <module name="ParameterAssignment" />
+
+        <!--
+             Checks for redundant imports
+             https://checkstyle.sourceforge.io/config_imports.html#RedundantImport
+        -->
+        <module name="RedundantImport" />
+
+        <!--
+             Checks for redundant modifiers in:
+               * interface and annotation definitions,
+               * the final modifier on methods of final classes, and
+               * inner interface declarations that are declared as static.
+             http://checkstyle.sourceforge.io/config_modifier.html#RedundantModifier
+        -->
+        <module name="RedundantModifier" />
+
+        <!--
+             Checks for over-complicated boolean expressions
+             http://checkstyle.sourceforge.io/config_coding.html#SimplifyBooleanExpression
+        -->
+        <module name="SimplifyBooleanExpression" />
+
+        <!--
+             Checks for over-complicated boolean return statements.
+             http://checkstyle.sourceforge.io/config_coding.html#SimplifyBooleanReturn
+        -->
+        <module name="SimplifyBooleanReturn" />
+
+        <!--
+             Checks that string literals are not used with == or !=.
+             http://checkstyle.sourceforge.io/config_coding.html#StringLiteralEquality
+         -->
+        <module name="StringLiteralEquality" />
+
+        <!-- Classes should start with a capital letter -->
+        <module name="TypeName"/>
+
+        <!--
+             Checks for unused import statements.
+             http://checkstyle.sourceforge.io/config_imports.html#UnusedImports
+        -->
+        <module name="UnusedImports" />
+
+        <!--
+             Checks the distance between declaration of variable and its
+             first usage.
+             http://checkstyle.sourceforge.io/config_coding.html#VariableDeclarationUsageDistance
+        -->
+        <module name="VariableDeclarationUsageDistance" />
+
+    </module>
+</module>
